@@ -7,7 +7,7 @@ var io = require("socket.io")(http);
 var MAX_USERS = 4;
 /* make rooms */
 
-app.use(express.static(_dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 
 
 app.get('/', function (req, res) {
