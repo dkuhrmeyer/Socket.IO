@@ -64,9 +64,6 @@ io.on('connection', function (socket) {
 
     io.sockets.in(room).emit('user connect', Object.keys(io.sockets.adapter.rooms[userMap[socket.id.toString()]].sockets));
 
-    console.log("72:\t%J", io.sockets.adapter.rooms[userMap[socket.id.toString()]].sockets);
-    console.log("73:\t%J", Object.keys(io.sockets.adapter.rooms[userMap[socket.id.toString()]].sockets));
-
     socket.on('disconnect', function () {
         console.log(socket.id + " user has disconnected");
         socket.broadcast.to(room).emit('user disconnect', Object.keys(io.sockets.adapter.rooms[userMap[socket.id.toString()]].sockets));
