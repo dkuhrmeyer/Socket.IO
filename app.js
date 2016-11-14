@@ -18,6 +18,10 @@ app.get('/', function (req, res) {
 });
 
 io.on('connection', function (socket) {
+    console.log(socket.id + "user has connected");
+    socket.on("disconnect", function(){
+        console.log(socket.id + "user has disconnected")
+    });
     /* do stuff */
     //    socket.join('waiting room');
     var id = socket.id;
@@ -66,6 +70,9 @@ io.on('connection', function (socket) {
 
     //    console.log("%j", userMap);
 });
+
+
+
 
 http.listen(PORT, function () {
     console.log("listening on localhost:" + PORT);
