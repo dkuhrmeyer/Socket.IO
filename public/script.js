@@ -6,3 +6,7 @@ $('document').ready(function () {
         socket.emit('get clients', temp);
     });
 });
+
+socket.on('bort', function (msg) {
+    console.log(msg);
+})
