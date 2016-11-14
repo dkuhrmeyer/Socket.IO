@@ -7,25 +7,29 @@ var io = require("socket.io")(http);
 var MAX_USERS = 4;
 /* make rooms */
 var rooms = [];
+var Players = [];
 var userMap = {};
 var s = new Date().toString();
 console.log(s);
 rooms.push(s);
 app.use(express.static(__dirname + '/public'));
 
+/* Note to Felipe: Try to put the object definition/function above all code that creates an instance of it or JSLint will squawk at us */
+function player(id) {
+    this.id = id;
+    this.score = 0;
+    this.lives = 5;
+    this.status = false;
+}
+
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
 io.on('connection', function (socket) {
-    console.log(socket.id + "user has connected");
-    socket.on("disconnect", function(){
-        console.log(socket.id + "user has disconnected")
-    });
-    /* do stuff */
-    //    socket.join('waiting room');
-    var id = socket.id;
-    console.log(id);
+    console.log(socket.id + " user has connected");
+    var new_player = new player(socket.id);
+    Players.push(new_player);
     var createNewRoom = true;
     var i;
     for (i = 0; i < rooms.length; i++) {
@@ -54,25 +58,71 @@ io.on('connection', function (socket) {
         rooms.push(roomName);
         socket.join(roomName);
         userMap[socket.id.toString()] = roomName;
-        //        console.log("%j", io.sockets.adapter.rooms[roomName]);
     }
 
-    console.log("%J", io.sockets.adapter.rooms[userMap[socket.id.toString()]].sockets);
+    var room = userMap[socket.id.toString()].toString();
+
+    io.sockets.in(room).emit('user connect', Object.keys(io.sockets.adapter.rooms[userMap[socket.id.toString()]].sockets));
+
+    console.log("72:\t%J", io.sockets.adapter.rooms[userMap[socket.id.toString()]].sockets);
+    console.log("73:\t%J", Object.keys(io.sockets.adapter.rooms[userMap[socket.id.toString()]].sockets));
 
     socket.on('disconnect', function () {
-        console.log(socket.id);
-
-        var room = userMap[socket.id.toString()].toString();
-
-        socket.broadcast.to(room).emit('bort', 'user disconnect');
-
+        console.log(socket.id + " user has disconnected");
+        socket.broadcast.to(room).emit('user disconnect', Object.keys(io.sockets.adapter.rooms[userMap[socket.id.toString()]].sockets));
     });
 
-    //    console.log("%j", userMap);
+    /* FelBen's Code */
+
+    socket.on('death', function () {
+        for (var i = 0; i < Players.length; i++) {
+            if (Players[i].id === socket.id) {
+                if (Players[i].status) {
+                    io.emit('status', {
+                        state: "Dead",
+                        sid: socket.id
+                    });
+                    Players[i].status = !Players[i].status;
+
+                } else {
+                    io.emit('status', {
+                        state: "Alive",
+                        sid: socket.id
+                    });
+                    Players[i].status = !Players[i].status;
+                }
+            }
+        }
+    });
+
+    socket.on('meow', function () {
+        console.log("score pressed");
+        for (var i = 0; i < Players.length; i++) {
+            if (Players[i].id === socket.id) {
+                Players[i].score++;
+                io.emit('score update', {
+                    num: Players[i].score,
+                    sid: socket.id,
+                });
+                console.log(Players[i].id + " score: " + Players[i].score);
+            }
+        }
+    });
+
+    socket.on('roar', function () {
+        for (var i = 0; i < Players.length; i++) {
+            if (Players[i].id === socket.id) {
+                Players[i].lives--;
+                io.emit('lives update', {
+                    lives: Players[i].lives,
+                    sid: socket.id,
+                });
+                console.log(Players[i].id + " Lives Left: " + Players[i].lives);
+            }
+        }
+    });
+
 });
-
-
-
 
 http.listen(PORT, function () {
     console.log("listening on localhost:" + PORT);
