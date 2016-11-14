@@ -9,9 +9,6 @@ var MAX_USERS = 4;
 var rooms = [];
 var Players = [];
 var userMap = {};
-var s = new Date().toString();
-console.log(s);
-rooms.push(s);
 app.use(express.static(__dirname + '/public'));
 
 /* Note to Felipe: Try to put the object definition/function above all code that creates an instance of it or JSLint will squawk at us */
@@ -32,6 +29,12 @@ io.on('connection', function (socket) {
     Players.push(new_player);
     var createNewRoom = true;
     var i;
+
+    if (rooms.length === 0) {
+        var s = new Date().toString();
+        rooms.push(s);
+    }
+
     for (i = 0; i < rooms.length; i++) {
         console.log(rooms[i]);
         if (io.sockets.adapter.rooms[rooms[i]] === undefined) {
@@ -65,8 +68,14 @@ io.on('connection', function (socket) {
     io.sockets.in(room).emit('user connect', Object.keys(io.sockets.adapter.rooms[userMap[socket.id.toString()]].sockets));
 
     socket.on('disconnect', function () {
-        console.log(socket.id + " user has disconnected");
-        socket.broadcast.to(room).emit('user disconnect', Object.keys(io.sockets.adapter.rooms[userMap[socket.id.toString()]].sockets));
+        if (io.sockets.adapter.rooms[userMap[socket.id.toString()]] === undefined) {
+            /* fixes the issue where the non-existant room is kept in the custom array */
+            rooms.splice(rooms.indexOf(room), 1);
+        } else {
+            console.log(socket.id + " user has disconnected");
+            socket.broadcast.to(room).emit('user disconnect', Object.keys(io.sockets.adapter.rooms[userMap[socket.id.toString()]].sockets));
+        }
+        console.log("%j", rooms);
     });
 
     /* FelBen's Code */

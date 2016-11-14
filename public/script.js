@@ -13,6 +13,10 @@ $('document').ready(function () {
 
 function updateUserList(data) {
     console.log(data);
+    document.getElementById("userList").innerHTML = '';
+    $.each(data, function (i, v) {
+        $("#userList").append($('<span class="userid">').text('| ' + v + ' |'));
+    });
 }
 
 socket.on('user connect', updateUserList);

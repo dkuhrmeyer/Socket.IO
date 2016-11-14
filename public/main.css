@@ -1,0 +1,8 @@
+#userList {
+    width: 100%;
+    background-color: #999;
+}
+
+.userid {
+    font-family: monospace;
+}
