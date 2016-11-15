@@ -1,4 +1,33 @@
 var socket = io();
+var stage, queue;
+var manifest = [{
+    
+}];
+
+function setupCanvas(){
+    var canvas = document.getElementById("game");
+    canvas.width = 800;
+    canvas.height = 600;
+    stage = new createjs.Stage(canvas);
+}
+
+function loadComplete(evt){
+    GAME_STATES.STATE = GAME_STATES.INIT;
+}
+
+function loadFiles(){
+    queue = new createjs.LoadQueue(true, "assets/");
+    queue.on("complete", loadComplete, this);
+    queue.installPlugin(createjs.Sound);
+    queue.loadManifest(manifest);
+}
+
+(function main() { //Main
+    setupCanvas();
+    loadFiles();
+})();
+
+
 $('document').ready(function () {
     $('#client_info').submit(function (evt) {
         evt.preventDefault();
