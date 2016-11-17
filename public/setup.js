@@ -3,6 +3,8 @@ var manifest = [{
     src: "scripts/game_states.js"
 },{
     src: "scripts/game_engine.js"
+},{
+    src: "scripts/game_start.js"
 }];
 
 function setupCanvas(){
@@ -13,7 +15,7 @@ function setupCanvas(){
 }
 
 function loadComplete(evt){
-    //GAME_STATES.STATE = GAME_STATES.INIT;
+    GAME_STATES.STATE = GAME_STATES.INIT;
 }
 
 function loadFiles(){
