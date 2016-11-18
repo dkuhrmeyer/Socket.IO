@@ -1,53 +1,78 @@
+var my_id = null;
+var players = {};
+
 var socket = io();
 $('document').ready(function () {
-    $('#client_info').submit(function (evt) {
+    $('#main').hide();
+    socket.emit('get user list');
+
+    $('#setUsername').on('click', function (evt) {
         evt.preventDefault();
-        var temp = '';
-        socket.emit('get clients', temp);
+        socket.emit('set username', $('#username').val());
+        $('#usernameForm').hide();
+        $('#main').show();
     });
-});
 
-//socket.on('bort', function (msg) {
-//    console.log(msg);
-//});
+    $('#message_form').submit(function (evt) {
+        evt.preventDefault();
 
-function updateUserList(data) {
-    console.log(data);
-    document.getElementById("userList").innerHTML = '';
-    $.each(data, function (i, v) {
-        $("#userList").append($('<span class="userid">').text('| ' + v + ' |'));
+        var tim = new Date().toTimeString();
+        tim = tim.substr(0, tim.indexOf(" "));
+
+        if ($("#msg").val() != '') {
+            var temp = {
+                id: my_id,
+                msg: $('#msg').val(),
+                time: tim
+            }
+            socket.emit('chat message', temp);
+            $('#msg').val("");
+        }
+        return false;
     });
-}
 
-socket.on('user connect', updateUserList);
-socket.on('user disconnect', updateUserList);
+    socket.on('send user list', function (data) {
+        console.log(data);
+        players = data;
+    });
 
-/* FelBen's Code */
+    socket.on('chat message', function (data) {
+        if (data.id === my_id) {
+            //$('#messages').append($('<li class="self">').text('<' + data.time + '> You: ' + data.msg));
+            $('#messages').append($('<li class="self">').text('<' + data.time + '>').append($('<span class="me">').text('You:')).append(" " + data.msg));
+        } else {
+            $('#messages').append($('<li>').text("<" + data.time + "> " + players[data.id].name + ': ' + data.msg));
+        }
+    });
 
-$('#score').submit(function (evt) {
-    evt.preventDefault();
-    socket.emit('meow');
-});
+    socket.on('return id', function (data) {
+        my_id = data;
+    });
 
-$('#lives').submit(function (evt) {
-    evt.preventDefault();
-    socket.emit('roar');
-});
 
-$('#state').submit(function (evt) {
-    evt.preventDefault();
-    console.log("button");
-    socket.emit('death');
-});
+    function updateUserList() {
+        document.getElementById("userList").innerHTML = '';
+        $.each(Object.keys(players), function (i, k) {
+            $("#userList").append($('<span class="userid' + ((players[k].id === my_id) ? ' me' : '') + '">').text('| ' + players[k].name + ' |'));
+        });
+        console.log(players);
+    }
 
-socket.on('score update', function (points) {
-    $('#prints').prepend($('<li>').text(points.sid + ' now has ' + points.num + ' points'));
-});
+    socket.on('user connect', function (data) {
+        $('#messages').append($('<li class="user-join">').text(data.name + ' has joined'));
+        if (players[data.id] != undefined) {
+            delete players[data.id];
+        }
+        players[data.id] = data;
+        updateUserList();
+    });
 
-socket.on('lives update', function (points) {
-    $('#prints').prepend($('<li>').text(points.sid + ' now has ' + points.lives + ' lives'));
-});
-
-socket.on('status', function (points) {
-    $('#prints').prepend($('<li>').text(points.sid + ' is ' + points.state + ' !'));
+    socket.on('user disconnect', function (data) {
+        console.log(data);
+        if (players[data] != undefined) {
+            $('#messages').append($('<li class="user-leave">').text(players[data].name + ' has left'));
+            delete players[data];
+            updateUserList();
+        }
+    });
 });
