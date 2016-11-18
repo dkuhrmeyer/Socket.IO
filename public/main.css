@@ -1,4 +1,19 @@
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+#main {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
 #userList {
+    flex: 0 1 auto;
     width: 100%;
     background-color: #999;
 }
@@ -6,3 +21,121 @@
 .userid {
     font-family: monospace;
 }
+
+.me {
+    color: white;
+    background-color: #d62f2f;
+}
+
+#main-container {
+    flex: 1 1 auto;
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+#game-box {
+    width: 70%;
+    flex: 0 0 auto;
+    padding-left: 100px;
+    padding-right: 100px;
+    position: relative;
+    border-right: 1px solid #666;
+}
+
+#game {
+    width: 800px;
+    height: 600px;
+    border: 1px solid #060;
+    padding: 0;
+    margin: auto;
+    display: block;
+    width: 800px;
+    height: 600px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#message-box {
+    flex: 1 1 auto;
+    /*    background-color: #48cea1;*/
+    display: flex;
+    flex-flow: column;
+}
+
+#messages-container {
+    /*    border-left: 1px solid #666;*/
+    background-color: #ddd;
+    flex: 1 1 auto;
+    width: 100%;
+    margin: 0 auto;
+    list-style-type: none;
+    padding: 0;
+    overflow-y: auto;
+    position: relative;
+}
+
+#messages {
+    position: absolute;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    bottom: 0;
+}
+
+#messages li {
+    list-style: none;
+    width: 100%;
+    margin: 0 auto;
+    border-bottom: 1px solid #333;
+    text-align: left;
+}
+
+#messages li.self {
+    background-color: #999;
+}
+
+#messages li.user-join {
+    background-color: #4b9ce3;
+}
+
+#messages li.user-leave {
+    background-color: #e34b4b;
+}
+
+#message_form {
+    flex: 0 0 auto;
+    margin: 0;
+    background: #000;
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+    bottom: 0;
+}
+
+#message_form * {
+    margin: 3px;
+}
+
+#message_form input {
+    flex: 1 1 auto;
+    border: 0;
+    padding: 10px;
+}
+
+#message_form button {
+    flex: 0 0 auto;
+    background: rgb(130, 224, 255);
+    border: none;
+    padding: 10px;
+}
+
+
+/*
+#messages li span {
+    float: right;
+    text-align: right;
+}*/
