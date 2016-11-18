@@ -16,14 +16,10 @@ $('document').ready(function () {
     $('#message_form').submit(function (evt) {
         evt.preventDefault();
 
-        var tim = new Date().toTimeString();
-        tim = tim.substr(0, tim.indexOf(" "));
-
         if ($("#msg").val() != '') {
             var temp = {
                 id: my_id,
-                msg: $('#msg').val(),
-                time: tim
+                msg: $('#msg').val()
             }
             socket.emit('chat message', temp);
             $('#msg').val("");
@@ -37,11 +33,12 @@ $('document').ready(function () {
     });
 
     socket.on('chat message', function (data) {
+        var time = new Date().toTimeString();
+        time = time.substr(0, time.indexOf(" "));
         if (data.id === my_id) {
-            //$('#messages').append($('<li class="self">').text('<' + data.time + '> You: ' + data.msg));
-            $('#messages').append($('<li class="self">').text('<' + data.time + '>').append($('<span class="me">').text('You:')).append(" " + data.msg));
+            $('#messages').append($('<li class="self">').text('<' + time + '>').append($('<span class="me">').text('You:')).append(" " + data.msg));
         } else {
-            $('#messages').append($('<li>').text("<" + data.time + "> " + players[data.id].name + ': ' + data.msg));
+            $('#messages').append($('<li>').text("<" + time + "> " + players[data.id].name + ': ' + data.msg));
         }
     });
 
