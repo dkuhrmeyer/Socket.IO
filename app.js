@@ -107,6 +107,35 @@ io.on('connection', function (socket) {
         io.sockets.in(players[id].room).emit('update score', "this is a test");
     });
 
+    socket.on('get level', function (data) {
+        var i;
+        var oneDimensional = [];
+        var twoDimensional = [];
+        for (i = 0; i < ((data.cols * data.rows) / 2); i++) {
+            oneDimensional.push(i);
+            oneDimensional.push(i);
+        }
+
+        var j, x, i;
+        for (i = oneDimensional.length; i; i -= 1) {
+            j = Math.floor(Math.random() * i);
+            x = oneDimensional[i - 1];
+            oneDimensional[i - 1] = oneDimensional[j];
+            oneDimensional[j] = x;
+        }
+
+        var r, c;
+        for (r = 0; r < data.rows; r++) {
+            twoDimensional[r] = [];
+            for (c = 0; c < data.cols; c++) {
+                twoDimensional[r][c] = oneDimensional[(r * data.cols) + c];
+            }
+        }
+        console.log("%j", twoDimensional);
+
+        io.sockets.in(players[id].room).emit('post level', twoDimensional);
+    });
+
 });
 
 /* http listen below here */

@@ -27,6 +27,18 @@ $('document').ready(function () {
         return false;
     });
 
+    $('#getLevel').on('click', function (evt) {
+        evt.preventDefault();
+        socket.emit('get level', {
+            cols: 3,
+            rows: 4
+        });
+    });
+
+    socket.on('post level', function (data) {
+        console.log(data);
+    })
+
     socket.on('send user list', function (data) {
         console.log(data);
         players = data;
@@ -45,7 +57,6 @@ $('document').ready(function () {
     socket.on('return id', function (data) {
         my_id = data;
     });
-
 
     function updateUserList() {
         document.getElementById("userList").innerHTML = '';
