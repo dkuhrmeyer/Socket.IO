@@ -1,3 +1,23 @@
+var difficulties = [
+    {
+        cols: 3,
+        rows: 4
+    }, {
+        cols: 4,
+        rows: 4
+    }, {
+        cols: 4,
+        rows: 5
+    }, {
+        cols: 4,
+        rows: 6
+    }, {
+        cols: 6,
+        rows: 6
+    }
+];
+
+
 var PORT = 3000;
 var express = require("express");
 var app = express();
@@ -108,10 +128,11 @@ io.on('connection', function (socket) {
     });
 
     socket.on('get level', function (data) {
+        var diff = data;
         var i;
         var oneDimensional = [];
         var twoDimensional = [];
-        for (i = 0; i < ((data.cols * data.rows) / 2); i++) {
+        for (i = 0; i < ((difficulties[diff].cols * difficulties[diff].rows) / 2); i++) {
             oneDimensional.push(i);
             oneDimensional.push(i);
         }
@@ -125,15 +146,25 @@ io.on('connection', function (socket) {
         }
 
         var r, c;
-        for (r = 0; r < data.rows; r++) {
+        for (r = 0; r < difficulties[diff].rows; r++) {
             twoDimensional[r] = [];
-            for (c = 0; c < data.cols; c++) {
-                twoDimensional[r][c] = oneDimensional[(r * data.cols) + c];
+            for (c = 0; c < difficulties[diff].cols; c++) {
+                twoDimensional[r][c] = oneDimensional[(r * difficulties[diff].cols) + c];
             }
         }
-        console.log("%j", twoDimensional);
+        //console.log("%j", twoDimensional);
+        //io.sockets.in(players[id].room).emit('post level', twoDimensional);
 
-        io.sockets.in(players[id].room).emit('post level', twoDimensional);
+        var obj = {
+            cols: difficulties[diff].cols,
+            rows: difficulties[diff].rows,
+            arr: oneDimensional,
+            grid: twoDimensional
+        }
+
+        console.log('%j', obj);
+
+        io.sockets.in(players[id].room).emit('post level', obj);
     });
 
 });

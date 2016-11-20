@@ -27,17 +27,26 @@ $('document').ready(function () {
         return false;
     });
 
+
+
+
+
     $('#getLevel').on('click', function (evt) {
         evt.preventDefault();
-        socket.emit('get level', {
-            cols: 3,
-            rows: 4
-        });
+        socket.emit('get level', 0);
     });
 
     socket.on('post level', function (data) {
         console.log(data);
-    })
+    });
+
+
+
+
+
+
+
+
 
     socket.on('send user list', function (data) {
         console.log(data);
