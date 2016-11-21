@@ -26,15 +26,10 @@ function gameInstructions() {
 
 function gameStart() {
     GAME_STATES.STATE = GAME_STATES.WAIT_FOR_PLAYERS;
-    if (Object.keys(players).length === 3) {
+    if (Object.keys(players).length >= 2) {
         socket.emit('start');
     } else {
         alert("Not enough players to start.");
-        //        if (confirm('Not enough Players. Continue?')) {
-        //            socket.emit('start', 0);
-        //        } else {
-        //            //do nothing
-        //        }
     }
 }
 

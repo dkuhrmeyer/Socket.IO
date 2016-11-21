@@ -144,9 +144,17 @@ io.on('connection', function (socket) {
     /* originally 'get level' and 'post level' */
     socket.on('start', function (data) {
         var diff = data;
-        if (diff >= 5) {
+
+        if (diff === undefined) {
             diff = 0;
+        } else {
+            if (diff >= 5) {
+                diff = 0;
+            }
         }
+
+        console.log(diff);
+
         var i;
         var oneDimensional = [];
         var twoDimensional = [];
