@@ -39,11 +39,22 @@ function buildButtons() {
 }
 
 function setButtons() {
-    btn.Play.x = 300;
-    btn.Continue.x = 300;
-    btn.Instruct.x = 300;
-    btn.Menu.x = 300;
-    btn.PlayGame.x = 300;
+
+    var bnd = btn.Play.getBounds();
+    btn.Play.x = (WIDTH - bnd.width) / 2;
+
+    bnd = btn.Continue.getBounds();
+    btn.Continue.x = (WIDTH - bnd.width) / 2;
+
+    bnd = btn.Instruct.getBounds();
+    btn.Instruct.x = (WIDTH - bnd.width) / 2;
+
+    bnd = btn.Menu.getBounds();
+    btn.Menu.x = (WIDTH - bnd.width) / 2;
+
+    bnd = btn.PlayGame.getBounds();
+    btn.PlayGame.x = (WIDTH - bnd.width) / 2;
+
 
     btn.Play.y = 284;
     btn.Continue.y = 300;

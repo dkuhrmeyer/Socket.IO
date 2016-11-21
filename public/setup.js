@@ -1,5 +1,5 @@
-var WIDTH = 800;
-var HEIGHT = 600;
+var WIDTH = 1280;
+var HEIGHT = 720;
 
 var stage, queue;
 var manifest = [{

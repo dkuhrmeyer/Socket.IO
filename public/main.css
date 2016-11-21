@@ -59,14 +59,14 @@ usernameForm form input {
 }
 
 #game {
+    /*
     width: 800px;
     height: 600px;
+    */
     border: 1px solid #060;
     padding: 0;
     margin: auto;
     display: block;
-    width: 800px;
-    height: 600px;
     position: absolute;
     top: 0;
     bottom: 0;
