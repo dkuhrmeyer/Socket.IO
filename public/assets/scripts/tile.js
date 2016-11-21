@@ -40,7 +40,9 @@ function Tile(val, x, y, wid, hei) {
         //that.faceup = !that.faceup;
         if (clicked.length < 2) {
             that.showFace(true);
-            clicked.push(that);
+            if (clicked.indexOf(that) != -1) {
+                clicked.push(that);
+            }
         }
     });
 }
