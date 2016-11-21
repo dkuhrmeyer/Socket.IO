@@ -11,6 +11,7 @@ function setupGame(){
 }
 
 function menuScreenView(){
+    hideLevelOneScreen();
     hideInstructionScreen();
     showTitle();
     showPlayGameButton();

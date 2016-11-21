@@ -121,6 +121,13 @@ usernameForm form input {
     background-color: #e34b4b;
 }
 
+#messages li .winMsg {
+    text-align: center;
+    font-size: 30px;
+    background-color: #060;
+    color: white;
+}
+
 #message_form {
     flex: 0 0 auto;
     margin: 0;

@@ -11,9 +11,6 @@ var difficulties = [
     }, {
         cols: 4,
         rows: 6
-    }, {
-        cols: 6,
-        rows: 6
     }
 ];
 
@@ -24,7 +21,6 @@ var app = express();
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
 
-/* change this later */
 var MAX_USERS = 3;
 
 /* simple array of the room names, should only ever contain strings */
@@ -39,6 +35,7 @@ app.use(express.static(__dirname + '/public'));
 
 function Player(id, room) {
     this.id = id;
+    this.ready = false;
     this.name = "Anon (" + id.substr(0, 5) + ")"; /* this will be updated when the user submits a name */
     this.room = room; /* not the literal object, just the 'name' of the room */
     this.score = 0;
@@ -98,7 +95,6 @@ io.on('connection', function (socket) {
     socket.on('set username', function (data) {
 
         /* only join after sumbitting a username, that way the update fires off properly */
-        //socket.join(players[id].room);
 
         if (data != '') {
             players[id].name = data;
@@ -123,12 +119,34 @@ io.on('connection', function (socket) {
     });
 
     socket.on('update score', function (data) {
-        //console.log(data);
         io.sockets.in(players[id].room).emit('update score', "this is a test");
     });
 
-    socket.on('get level', function (data) {
+    socket.on('match', function () {
+        players[id].score += 10;
+        console.log('%j', players[id]);
+        io.sockets.in(players[id].room).emit('update score', players[id]);
+    });
+
+    socket.on('player win', function () {
+        console.log('player win');
+
+        var pls = Object.keys(players);
+        var p;
+        for (p = 0; p < pls.length; p++) {
+            players[pls[p]].score = 0;
+        }
+        io.sockets.in(players[id].room).emit('send user list', getPlayersInRoom(true));
+
+        io.sockets.in(players[id].room).emit('winner won', players[id]);
+    });
+
+    /* originally 'get level' and 'post level' */
+    socket.on('start', function (data) {
         var diff = data;
+        if (diff >= 5) {
+            diff = 0;
+        }
         var i;
         var oneDimensional = [];
         var twoDimensional = [];
@@ -152,9 +170,6 @@ io.on('connection', function (socket) {
                 twoDimensional[r][c] = oneDimensional[(r * difficulties[diff].cols) + c];
             }
         }
-        //console.log("%j", twoDimensional);
-        //io.sockets.in(players[id].room).emit('post level', twoDimensional);
-
         var obj = {
             cols: difficulties[diff].cols,
             rows: difficulties[diff].rows,
@@ -164,7 +179,7 @@ io.on('connection', function (socket) {
 
         console.log('%j', obj);
 
-        io.sockets.in(players[id].room).emit('post level', obj);
+        io.sockets.in(players[id].room).emit('start', obj);
     });
 
 });

@@ -1,7 +1,8 @@
 var my_id = null;
 var players = {};
-
+/*move this outisde this script?*/
 var socket = io();
+
 $('document').ready(function () {
     $('#main').hide();
     socket.emit('get user list');
@@ -27,30 +28,9 @@ $('document').ready(function () {
         return false;
     });
 
-
-
-
-
-    $('#getLevel').on('click', function (evt) {
-        evt.preventDefault();
-        socket.emit('get level', 0);
-    });
-
-    socket.on('post level', function (data) {
-        console.log(data);
-    });
-
-
-
-
-
-
-
-
-
     socket.on('send user list', function (data) {
-        console.log(data);
         players = data;
+        updateUserList();
     });
 
     socket.on('chat message', function (data) {
@@ -70,10 +50,15 @@ $('document').ready(function () {
     function updateUserList() {
         document.getElementById("userList").innerHTML = '';
         $.each(Object.keys(players), function (i, k) {
-            $("#userList").append($('<span class="userid' + ((players[k].id === my_id) ? ' me' : '') + '">').text('| ' + players[k].name + ' |'));
+            $("#userList").append($('<span class="userid' + ((players[k].id === my_id) ? ' me' : '') + '">').text('| ' + players[k].name + ' :: score:' + players[k].score + ' |'));
         });
         console.log(players);
     }
+
+    socket.on('update score', function (player) {
+        players[player.id] = player;
+        updateUserList();
+    });
 
     socket.on('user connect', function (data) {
         $('#messages').append($('<li class="user-join">').text(data.name + ' has joined'));
