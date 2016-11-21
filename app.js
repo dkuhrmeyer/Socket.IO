@@ -54,11 +54,18 @@ io.on('connection', function (socket) {
     var makeNewRoom = true;
     for (var rn in roomnames) {
         var room = io.sockets.adapter.rooms[roomnames[rn]];
-        if (room.length < MAX_USERS) {
-            makeNewRoom = false;
-            players[id] = new Player(id, roomnames[rn]);
-            socket.join(roomnames[rn]);
-            rn = Number.MAX_SAFE_INTEGER;
+        for (var rn in roomnames) {
+            var room = io.sockets.adapter.rooms[roomnames[rn]];
+            if (room != undefined) {
+                if (room.length < MAX_USERS) {
+                    makeNewRoom = false;
+                    players[id] = new Player(id, roomnames[rn]);
+                    socket.join(roomnames[rn]);
+                    rn = Number.MAX_SAFE_INTEGER;
+                }
+            } else {
+                roomnames.splice(rn, 1);
+            }
         }
     }
     if (makeNewRoom) {
@@ -131,12 +138,14 @@ io.on('connection', function (socket) {
     socket.on('player win', function () {
         console.log('player win');
 
+        /*
         var pls = Object.keys(players);
         var p;
         for (p = 0; p < pls.length; p++) {
             players[pls[p]].score = 0;
         }
         io.sockets.in(players[id].room).emit('send user list', getPlayersInRoom(true));
+		*/
 
         io.sockets.in(players[id].room).emit('winner won', players[id]);
     });

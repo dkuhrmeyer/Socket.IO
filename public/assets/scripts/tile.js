@@ -39,8 +39,12 @@ function Tile(val, x, y, wid, hei) {
     this.obj.on("click", function (evt) {
         //that.faceup = !that.faceup;
         if (clicked.length < 2) {
-            that.showFace(true);
-            clicked.push(that);
+            if (clicked.indexOf(that) === -1) {
+                if (matches.indexOf(that) === -1) {
+                    that.showFace(true);
+                    clicked.push(that);
+                }
+            }
         }
     });
 }
