@@ -13,8 +13,6 @@ var difficulties = [
         rows: 6
     }
 ];
-
-
 var PORT = 3000;
 var express = require("express");
 var app = express();
@@ -22,6 +20,7 @@ var http = require("http").Server(app);
 var io = require("socket.io")(http);
 
 var MAX_USERS = 3;
+var locker = true;
 
 /* simple array of the room names, should only ever contain strings */
 var roomnames = [];
@@ -129,31 +128,43 @@ io.on('connection', function (socket) {
         io.sockets.in(players[id].room).emit('update score', "this is a test");
     });
 
-    socket.on('match', function () {
-        players[id].score += 10;
-        console.log('%j', players[id]);
-        io.sockets.in(players[id].room).emit('update score', players[id]);
+    socket.on('lock', function (index) {
+        console.log('Lock tile:' + index);
+        socket.broadcast.to(players[id].room).emit('lock tile', index);
     });
 
-    socket.on('player win', function () {
-        console.log('player win');
+    socket.on('unlock', function (indicies) {
+        console.log('Unlock tiles: %j', indicies);
+        socket.broadcast.to(players[id].room).emit('unlock tiles', indicies);
+    });
 
-        /*
-        var pls = Object.keys(players);
-        var p;
-        for (p = 0; p < pls.length; p++) {
-            players[pls[p]].score = 0;
+    socket.on('match', function (clicked) {
+        console.log("%j", clicked);
+        players[id].score += 10;
+        //console.log('%j', players[id]);
+        io.sockets.in(players[id].room).emit('update score', players[id]);
+        io.sockets.in(players[id].room).emit('remove tiles', clicked);
+    });
+
+    socket.on('gameover', function () {
+        if (locker) {
+            locker = false;
+            console.log('gameover');
+            var winner = players[id];
+            var pids = Object.keys(players);
+            for (var i in pids) {
+                if (winner.score < players[pids[i]].score) {
+                    winner = players[pids[i]];
+                }
+            }
+            io.sockets.in(players[id].room).emit('winner won', winner);
         }
-        io.sockets.in(players[id].room).emit('send user list', getPlayersInRoom(true));
-		*/
-
-        io.sockets.in(players[id].room).emit('winner won', players[id]);
     });
 
     /* originally 'get level' and 'post level' */
     socket.on('start', function (data) {
         var diff = data;
-
+        locker = true;
         if (diff === undefined) {
             diff = 0;
         } else {

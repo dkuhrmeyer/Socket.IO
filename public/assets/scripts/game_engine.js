@@ -1,6 +1,7 @@
 var locker = true;
 var HIDE_DELAY = 30 * 1;
 var delay = 0;
+var notifyUpdate = false;
 
 function goToMainMenu() {
     $.each(tiles, function (index, tile) {
@@ -14,6 +15,37 @@ socket.on('winner won', function (player) {
     goToMainMenu();
     tiles = [];
     clicked = [];
+});
+
+socket.on('remove tiles', function (indicies) {
+    var toBeRemoved = [];
+    for (var i in indicies) {
+        toBeRemoved.push(tiles[indicies[i]]);
+    }
+    for (var t in toBeRemoved) {
+        var tbr = toBeRemoved[t];
+        if (matches.indexOf(tbr) === -1) {
+            locked.push(tbr);
+        }
+        if (clicked.indexOf(tbr) != -1) {
+            clicked.splice(clicked.indexOf(tbr), 1);
+        }
+        stage.removeChild(tbr.obj);
+    }
+});
+
+socket.on('lock tile', function (index) {
+    //    tiles[index].lock();
+    console.log('lock tile: ' + index);
+    tiles[index].lock();
+});
+
+socket.on('unlock tiles', function (indicies) {
+    //    tiles[index].unlock();
+    console.log('unlock tiles: ' + indicies);
+    for (var i in indicies) {
+        tiles[indicies[i]].unlock();
+    }
 });
 
 function menu() {
@@ -35,18 +67,29 @@ function menu() {
             firstLevelScreenView();
         }
 
+        if (notifyUpdate) {
+            notifyUpdate = false;
+            clicked = [];
+        }
         if (clicked.length === 2) {
             if (clicked[0].val === clicked[1].val) {
-                //they're the same
-                console.log("Match!");
-                socket.emit('match');
-                for (var i in clicked) {
-                    matches.push(clicked[i]);
-                }
-                clicked = [];
-
-                if (matches.length === leveldata.arr.length) {
-                    socket.emit('player win');
+                if (delay < HIDE_DELAY) {
+                    if (delay === 0) {
+                        clicked[0].success();
+                        clicked[1].success();
+                        console.log("Match!");
+                    }
+                    delay++;
+                } else {
+                    delay = 0;
+                    for (var i in clicked) {
+                        matches.push(clicked[i]);
+                    }
+                    notifyUpdate = true;
+                    if ((matches.length + locked.length) === leveldata.arr.length) {
+                        socket.emit('gameover');
+                    }
+                    socket.emit('match', [tiles.indexOf(clicked[0]), tiles.indexOf(clicked[1])]);
                 }
             } else {
                 if (delay < HIDE_DELAY) {
@@ -55,10 +98,11 @@ function menu() {
                     delay = 0;
                     clicked[0].showFace(false);
                     clicked[1].showFace(false);
-                    //                    for (var a in clicked) {
-                    //                        clicked.pop();
-                    //                    }
-                    clicked = [];
+                    socket.emit('unlock', [
+                        tiles.indexOf(clicked[0]),
+                        tiles.indexOf(clicked[1])
+                    ]);
+                    notifyUpdate = true;
                 }
             }
         }

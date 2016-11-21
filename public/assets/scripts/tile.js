@@ -1,14 +1,16 @@
-var clicked = [];
-var matches = [];
+var green = '#46b541';
+var yellow = '#efde12';
+var red = '#d83232';
 
 function Tile(val, x, y, wid, hei) {
     this.val = val; /*int*/
     this.obj = new createjs.Container();
     this.front = new createjs.Bitmap(queue.getResult('img-' + val));
     this.back = new createjs.Shape();
-    this.back.graphics.beginFill('#efde12').drawRect(0, 0, wid, hei);
+    this.back.graphics.beginFill(yellow).drawRect(0, 0, wid, hei);
     this.back.setBounds(0, 0, wid, hei);
     this.faceup = false;
+    this.locked = false;
 
     this.obj.setBounds(0, 0, wid, hei);
 
@@ -30,19 +32,34 @@ function Tile(val, x, y, wid, hei) {
     stage.addChild(this.obj);
 
     var that = this;
-
+    /* ALL FUNCTIONS BELOW THAT = THIS */
     this.showFace = function (showface) {
         that.faceup = showface;
         that.front.visible = that.faceup;
     }
 
+    this.lock = function () {
+        that.back.graphics.beginFill(red).drawRect(0, 0, wid, hei);
+        that.locked = true;
+    }
+
+    this.unlock = function () {
+        that.back.graphics.beginFill(yellow).drawRect(0, 0, wid, hei);
+        that.locked = false;
+    }
+
+    this.success = function () {
+        that.back.graphics.beginFill(green).drawRect(0, 0, wid, hei);
+    }
+
     this.obj.on("click", function (evt) {
         //that.faceup = !that.faceup;
-        if (clicked.length < 2) {
-            if (clicked.indexOf(that) === -1) {
-                if (matches.indexOf(that) === -1) {
+        if (!that.locked) {
+            if (clicked.length < 2) {
+                if (clicked.indexOf(that) === -1 && matches.indexOf(that) === -1) {
                     that.showFace(true);
                     clicked.push(that);
+                    socket.emit('lock', tiles.indexOf(that));
                 }
             }
         }

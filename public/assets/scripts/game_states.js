@@ -11,6 +11,9 @@ var GAME_STATES = {
 
 var leveldata = null;
 var tiles = [];
+var clicked = [];
+var matches = [];
+var locked = [];
 
 function gameSetup() {
     GAME_STATES.STATE = GAME_STATES.INIT;
