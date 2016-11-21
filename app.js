@@ -131,13 +131,15 @@ io.on('connection', function (socket) {
     socket.on('player win', function () {
         console.log('player win');
 
+		/*
         var pls = Object.keys(players);
         var p;
         for (p = 0; p < pls.length; p++) {
             players[pls[p]].score = 0;
         }
         io.sockets.in(players[id].room).emit('send user list', getPlayersInRoom(true));
-
+		*/
+		
         io.sockets.in(players[id].room).emit('winner won', players[id]);
     });
 
