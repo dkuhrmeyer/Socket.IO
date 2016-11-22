@@ -14,12 +14,19 @@ function Tile(val, x, y, wid, hei) {
 
     this.obj.setBounds(0, 0, wid, hei);
 
-    var fb = this.front.getBounds();
-
-    this.front.x = (this.obj.getBounds().width - fb.width) / 2;
-    this.front.y = (this.obj.getBounds().height - fb.height) / 2;
 
     var bb = this.back.getBounds();
+
+    var fb = this.front.getBounds();
+
+    var w = bb.width;
+    var h = bb.height;
+    // obj.widht / image.width
+    var sY = h / fb.height;
+    var sX = w / fb.width;
+    this.front.scaleX = this.front.scaleY = ((sY < sX) ? sY : sX);
+    this.front.x = (this.obj.getBounds().width - (fb.width * this.front.scaleX)) / 2;
+    this.front.y = (this.obj.getBounds().height - (fb.height * this.front.scaleY)) / 2;
 
     this.obj.x = x - (.5 * wid);
     this.obj.y = y - (.5 * hei);

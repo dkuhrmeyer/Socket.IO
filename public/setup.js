@@ -3,7 +3,7 @@ var HEIGHT = 720;
 
 var stage, queue;
 var manifest = [{
-    src: "images/1.png",
+    src: "images/eagle.png",
     id: "img-1"
 }, {
     src: "images/2.png",
