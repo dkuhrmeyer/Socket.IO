@@ -6,37 +6,52 @@ var manifest = [{
     src: "images/eagle.png",
     id: "img-1"
 }, {
-    src: "images/2.png",
+    src: "images/husky.png",
     id: "img-2"
 }, {
-    src: "images/3.png",
+    src: "images/pizzaDeliveryGuy.png",
     id: "img-3"
 }, {
-    src: "images/4.png",
+    src: "images/tank.png",
     id: "img-4"
 }, {
-    src: "images/5.png",
+    src: "images/crab.png",
     id: "img-5"
 }, {
-    src: "images/6.png",
+    src: "images/boat.png",
     id: "img-6"
 }, {
-    src: "images/7.png",
+    src: "images/boatTWO.png",
     id: "img-7"
 }, {
-    src: "images/8.png",
+    src: "images/mountains.png",
     id: "img-8"
 }, {
-    src: "images/9.png",
+    src: "images/mountainsTWO.png",
     id: "img-9"
 }, {
-    src: "images/10.png",
+    src: "images/shield.png",
     id: "img-10"
 }, {
-    src: "images/11.png",
+    src: "images/bell.png",
     id: "img-11"
 }, {
-    src: "images/12.png",
+    src: "images/bellTwo.png",
+    id: "img-12"
+},{
+    src: "images/dK.png",
+    id: "img-12"
+},{
+    src: "images/eightyOne.png",
+    id: "img-12"
+},{
+    src: "images/pizzaBox.png",
+    id: "img-12"
+},{
+    src: "images/sunBottleCap.png",
+    id: "img-12"
+},{
+    src: "images/throwingStar.png",
     id: "img-12"
 }, {
     src: "images/backOfCard.png",
