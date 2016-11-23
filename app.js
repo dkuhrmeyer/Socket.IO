@@ -13,6 +13,20 @@ var difficulties = [
         rows: 6
     }
 ];
+
+/* NOTE TO BEATTY: In order to keep the chat clean, I've created this profanity object. It serves as a Key/value set for replacement*/
+var profanity = {
+    'fuck': 'heck',
+    'bitch': 'bort',
+    'damn': 'dang',
+    'shit': 'crap',
+    'bastard': 'silly person',
+    'dammit': 'darnit',
+    'goddammit': 'gorammit',
+    'motherfucker': 'motherhubbard',
+    'ggez': 'I put others down to raise my low self-esteem'
+}
+
 var PORT = 3000;
 var express = require("express");
 var app = express();
@@ -121,6 +135,19 @@ io.on('connection', function (socket) {
     });
 
     socket.on('chat message', function (data) {
+        var msg = data.msg;
+        msg = msg.replace(/gg ez/g, "ggez");
+        msg = msg.replace(/god dammit/g, "goddammit");
+        var msgarr = msg.split(" ");
+
+        for (var w in msgarr) {
+            var word = msgarr[w];
+            if (profanity[word] != undefined) {
+                msgarr[w] = profanity[word];
+            }
+        }
+        var newmsg = msgarr.join(" ");
+        data.msg = newmsg;
         io.sockets.in(players[id].room).emit('chat message', data);
     });
 

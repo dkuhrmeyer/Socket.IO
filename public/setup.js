@@ -15,47 +15,50 @@ var manifest = [{
     src: "images/tank.png",
     id: "img-4"
 }, {
-    src: "images/crab.png",
+    src: "images/Tennant Flat 400.png",
     id: "img-5"
 }, {
-    src: "images/Prof Pic 1000.png",
+    src: "images/Prof Pic 400.jpg",
     id: "img-6"
 }, {
-    src: "images/boat.png",
+    src: "images/crab.png",
     id: "img-7"
 }, {
-    src: "images/boatTWO.png",
+    src: "images/boat.png",
     id: "img-8"
 }, {
-    src: "images/mountains.png",
+    src: "images/boatTWO.png",
     id: "img-9"
 }, {
-    src: "images/mountainsTWO.png",
+    src: "images/mountainsONE.png",
     id: "img-10"
 }, {
-    src: "images/shield.png",
+    src: "images/mountainsTWO.png",
     id: "img-11"
 }, {
-    src: "images/bell.png",
+    src: "images/shield.png",
     id: "img-12"
 }, {
-    src: "images/bellTwo.png",
+    src: "images/bell.png",
     id: "img-13"
 }, {
-    src: "images/dK.png",
+    src: "images/bellTwo.png",
     id: "img-14"
 }, {
-    src: "images/eightyOne.png",
+    src: "images/dK.png",
     id: "img-15"
 }, {
-    src: "images/pizzaBox.png",
+    src: "images/eightyOne.png",
     id: "img-16"
 }, {
-    src: "images/sunBottleCap.png",
+    src: "images/pizzaBox.png",
     id: "img-17"
 }, {
-    src: "images/throwingStar.png",
+    src: "images/sunBottleCap.png",
     id: "img-18"
+}, {
+    src: "images/throwingStar.png",
+    id: "img-19"
 }, {
     src: "images/backOfCard.png",
     id: "backOfCard"
