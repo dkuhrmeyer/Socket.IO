@@ -18,41 +18,44 @@ var manifest = [{
     src: "images/crab.png",
     id: "img-5"
 }, {
-    src: "images/boat.png",
+    src: "images/Prof Pic 1000.png",
     id: "img-6"
 }, {
-    src: "images/boatTWO.png",
+    src: "images/boat.png",
     id: "img-7"
 }, {
-    src: "images/mountains.png",
+    src: "images/boatTWO.png",
     id: "img-8"
 }, {
-    src: "images/mountainsTWO.png",
+    src: "images/mountains.png",
     id: "img-9"
 }, {
-    src: "images/shield.png",
+    src: "images/mountainsTWO.png",
     id: "img-10"
 }, {
-    src: "images/bell.png",
+    src: "images/shield.png",
     id: "img-11"
 }, {
+    src: "images/bell.png",
+    id: "img-12"
+}, {
     src: "images/bellTwo.png",
-    id: "img-12"
-},{
+    id: "img-13"
+}, {
     src: "images/dK.png",
-    id: "img-12"
-},{
+    id: "img-14"
+}, {
     src: "images/eightyOne.png",
-    id: "img-12"
-},{
+    id: "img-15"
+}, {
     src: "images/pizzaBox.png",
-    id: "img-12"
-},{
+    id: "img-16"
+}, {
     src: "images/sunBottleCap.png",
-    id: "img-12"
-},{
+    id: "img-17"
+}, {
     src: "images/throwingStar.png",
-    id: "img-12"
+    id: "img-18"
 }, {
     src: "images/backOfCard.png",
     id: "backOfCard"
