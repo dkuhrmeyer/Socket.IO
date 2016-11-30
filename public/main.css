@@ -37,19 +37,34 @@ usernameForm form input {
 }
 
 .userid {
+    table-layout: fixed;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-    width: 40%;
-    height:40px;
+    height:90px;
+    font-size: 32pt;
     border-radius: 5px;
+    min-width: 500px;
+}
+table 
+{
+    margin-left: auto;
+    margin-right: auto;
+}
+table tr
+{
+    display: table-cell;
+    min-width: 500px;
 }
 
 .me {
+    table-layout: fixed;
     color: black;
+     width: 150px;
+    font-size: 32pt;
     text-align: center;
-    background-color:  #4B9CE3
-    
-;
+    background-color:  #4B9CE3;
+    min-width: 500px;
+
 }
 
 #main-container {
