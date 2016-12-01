@@ -27,31 +27,34 @@ usernameForm form input {
     flex-flow: column;
 }
 
-#userList {
+#users {
     flex: 0 1 auto;
+    border-bottom: 1px solid black;
+}
+
+#userList {
     width: 15%;
     color: black;
     background-color: #4B9CE3;
     text-align: center;
-
 }
 
 .userid {
     table-layout: fixed;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     transition: 0.3s;
-    height:90px;
+    height: 90px;
     font-size: 32pt;
     border-radius: 5px;
     min-width: 500px;
 }
-table 
-{
+
+table {
     margin-left: auto;
     margin-right: auto;
 }
-table tr
-{
+
+table tr {
     display: table-cell;
     min-width: 500px;
 }
@@ -59,12 +62,11 @@ table tr
 .me {
     table-layout: fixed;
     color: black;
-     width: 150px;
+    width: 150px;
     font-size: 32pt;
     text-align: center;
-    background-color:  #4B9CE3;
+    background-color: #4B9CE3;
     min-width: 500px;
-
 }
 
 #main-container {
