@@ -69,6 +69,11 @@ table tr {
     min-width: 500px;
 }
 
+.self>.me {
+    color: black;
+    font-size: 12pt;
+}
+
 #main-container {
     flex: 1 1 auto;
     display: flex;
