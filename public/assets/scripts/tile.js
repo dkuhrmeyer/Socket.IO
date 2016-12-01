@@ -67,6 +67,10 @@ function Tile(val, x, y, wid, hei) {
                     that.showFace(true);
                     clicked.push(that);
                     socket.emit('lock', tiles.indexOf(that));
+                } else {
+                    that.showFace(false);
+                    clicked.splice(clicked.indexOf(that), 1);
+                    socket.emit('unlock', [tiles.indexOf(that)]);
                 }
             }
         }
