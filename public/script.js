@@ -37,7 +37,7 @@ $('document').ready(function () {
         var time = new Date().toTimeString();
         time = time.substr(0, time.indexOf(" "));
         if (data.id === my_id) {
-            $('#messages').append($('<li class="self">').text('<' + time + '>').append($('<span class="me">').text('You:')).append(" " + data.msg));
+            $('#messages').append($('<li class="self">').text('<' + time + '>').append($('<span class="me">').text('You: ')).append(" " + data.msg));
         } else {
             $('#messages').append($('<li>').text("<" + time + "> " + players[data.id].name + ': ' + data.msg));
         }
