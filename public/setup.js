@@ -1,6 +1,8 @@
 var WIDTH = 1280;
 var HEIGHT = 720;
 
+var ding, bubble, buzzer;
+
 var stage, queue;
 var manifest = [{
     src: "images/eagle.png",
@@ -81,6 +83,15 @@ var manifest = [{
 }, {
     src: "scripts/game_buttons.js"
 }, {
+    src: "sfx/ding.wav",
+    id: "ding"
+}, {
+    src: "sfx/bubble.wav",
+    id: "bubble"
+}, {
+    src: "sfx/buzzer.wav",
+    id: "buzzer"
+}, {
     src: "images/titleScreen.png",
     id: "title"
 }, {
@@ -114,6 +125,11 @@ function setupCanvas() {
 }
 
 function loadComplete(evt) {
+
+    ding = new createjs.Sound.createInstance("ding");
+    bubble = new createjs.Sound.createInstance("bubble");
+    buzzer = new createjs.Sound.createInstance("buzzer");
+
     GAME_STATES.STATE = GAME_STATES.INIT;
     startLoop();
 }

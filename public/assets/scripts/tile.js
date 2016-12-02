@@ -62,6 +62,9 @@ function Tile(val, x, y, wid, hei) {
     this.obj.on("click", function (evt) {
         //that.faceup = !that.faceup;
         if (!that.locked) {
+            if (clicked.length === 0) {
+                bubble.play();
+            }
             if (clicked.length < 2) {
                 if (clicked.indexOf(that) === -1 && matches.indexOf(that) === -1) {
                     that.showFace(true);

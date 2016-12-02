@@ -78,6 +78,7 @@ function menu() {
                         clicked[0].success();
                         clicked[1].success();
                         console.log("Match!");
+                        ding.play();
                     }
                     delay++;
                 } else {
@@ -92,6 +93,9 @@ function menu() {
                     socket.emit('match', [tiles.indexOf(clicked[0]), tiles.indexOf(clicked[1])]);
                 }
             } else {
+                if (delay === 0) {
+                    buzzer.play();
+                }
                 if (delay < HIDE_DELAY) {
                     delay++;
                 } else {
