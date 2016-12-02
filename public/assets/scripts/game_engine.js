@@ -15,6 +15,8 @@ socket.on('winner won', function (player) {
     goToMainMenu();
     tiles = [];
     clicked = [];
+    matches = [];
+    locked = [];
 });
 
 socket.on('remove tiles', function (indicies) {
@@ -65,6 +67,9 @@ function menu() {
         if (locker) {
             locker = false;
             firstLevelScreenView();
+            clicked = [];
+            matches = [];
+            locked = [];
         }
 
         if (notifyUpdate) {

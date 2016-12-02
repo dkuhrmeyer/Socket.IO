@@ -52,6 +52,7 @@ function Player(id, room) {
     this.name = "Anon (" + id.substr(0, 5) + ")"; /* this will be updated when the user submits a name */
     this.room = room; /* not the literal object, just the 'name' of the room */
     this.score = 0;
+    this.totalscore = 0;
 }
 
 app.get('/', function (req, res) {
@@ -168,6 +169,7 @@ io.on('connection', function (socket) {
     socket.on('match', function (clicked) {
         console.log("%j", clicked);
         players[id].score += 10;
+        players[id].totalscore += 10;
         //console.log('%j', players[id]);
         io.sockets.in(players[id].room).emit('update score', players[id]);
         io.sockets.in(players[id].room).emit('remove tiles', clicked);
@@ -183,6 +185,9 @@ io.on('connection', function (socket) {
                 if (winner.score < players[pids[i]].score) {
                     winner = players[pids[i]];
                 }
+            }
+            for (var i in pids) {
+                players[pids[i]].score = 0;
             }
             io.sockets.in(players[id].room).emit('winner won', winner);
         }

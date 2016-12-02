@@ -50,7 +50,7 @@ $('document').ready(function () {
     function updateUserList() {
         document.getElementById("userList").innerHTML = '';
         $.each(Object.keys(players), function (i, k) {
-            $("#userList").append($('<tr class="userid' + ((players[k].id === my_id) ? ' me' : '') + '">').text(players[k].name + ': score = ' + players[k].score));
+            $("#userList").append($('<tr class="userid' + ((players[k].id === my_id) ? ' me' : '') + '">').text(players[k].name + ': score = ' + players[k].totalscore));
         });
         console.log(players);
     }
