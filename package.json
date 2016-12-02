@@ -1,0 +1,34 @@
+{
+  "name": "card_flip_rivalry",
+  "version": "1.0.0",
+  "description": "A multiplayer memory-matching game",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.14.0",
+    "socket.io": "^1.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/dkuhrmeyer/Socket.IO.git"
+  },
+  "keywords": [
+    "memory",
+    "matching",
+    "game",
+    "card",
+    "flip",
+    "rivalry",
+    "socketio",
+    "createjs"
+  ],
+  "author": "Daniel Kuhrmeyer, Felipe Benitez, and Thomas Feuerborn",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/dkuhrmeyer/Socket.IO/issues"
+  },
+  "homepage": "https://github.com/dkuhrmeyer/Socket.IO#readme"
+}
